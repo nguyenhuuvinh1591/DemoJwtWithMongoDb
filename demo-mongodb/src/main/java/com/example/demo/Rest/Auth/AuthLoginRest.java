@@ -8,9 +8,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Entity.UserAuthen;
@@ -30,14 +29,14 @@ public class AuthLoginRest extends AbstractRest {
 	private AuthenService authenService;
 
 	@PostMapping("login")
-	public DtsApiResponse login(@RequestParam("username") String userAuthenname, @RequestParam("password") String pwd) {
+	public DtsApiResponse login(@RequestBody UserAuthen userAuthen) {
 		long start = System.currentTimeMillis();
 		try {
-			String md5Hex = DigestUtils.md5Hex(pwd).toUpperCase();
+			String md5Hex = DigestUtils.md5Hex(userAuthen.getPassword()).toUpperCase();
 			UserAuthen UserAuthen = null;
-			if (authenService.isAccountValid(userAuthenname, md5Hex)) {
+			if (authenService.isAccountValid(userAuthen.getUsername(), md5Hex)) {
 				UserAuthen = new UserAuthen();
-				String token = getJWTToken(userAuthenname);
+				String token = getJWTToken(userAuthen.getUsername());
 				UserAuthen.setToken(token);
 			} else {
 				DetailException de = new DetailException(E90006_USER_NOT_EXITS_OR_PASSWORD_NOT_CORRECT);

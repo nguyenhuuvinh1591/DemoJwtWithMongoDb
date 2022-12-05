@@ -1,18 +1,23 @@
 package com.example.demo.Rest;
 
 import java.util.List;
+import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import com.example.demo.Entity.Contact;
 import com.example.demo.Service.ContactService;
@@ -29,6 +34,8 @@ public class ContactRest extends AbstractRest {
 
 	@Autowired
 	private ContactService contactService;
+	
+	private AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public DtsApiResponse getAllContacts() {
@@ -83,6 +90,18 @@ public class ContactRest extends AbstractRest {
 			return successHandler.handlerSuccess(id, start);
 		} catch (Exception e) {
 			return this.errorHandler.handlerException(e, start);
+		}
+	}
+	
+	@GetMapping("/export-excel")
+	public void getExportExcel(HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) {
+		Long start = System.currentTimeMillis();
+		try {
+			Locale locale = acceptHeaderLocaleResolver.resolveLocale(httpServletRequest);
+			contactService.exportFileExcel(httpServletResponse, locale);
+		} catch (Exception ex) {
+			this.errorHandler.handlerException(ex, start);
 		}
 	}
 }

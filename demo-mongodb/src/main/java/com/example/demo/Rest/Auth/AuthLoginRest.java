@@ -25,6 +25,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @RestController
 public class AuthLoginRest extends AbstractRest {
 	
+	public static Integer expriTimeConfigToken = 10000000;
 
 	@Autowired
 	private AuthenService authenService;
@@ -59,7 +60,7 @@ public class AuthLoginRest extends AbstractRest {
 				.claim("authorities",
 						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.setExpiration(new Date(System.currentTimeMillis() + expriTimeConfigToken))
 				.signWith(SignatureAlgorithm.HS512, secretKey.getBytes()).compact();
 
 		return "Bearer " + token;

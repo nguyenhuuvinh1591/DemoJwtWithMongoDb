@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.example.demo.Entity.UserAuthen;
 
-public interface AuthenRepository extends MongoRepository<UserAuthen, String>{
-	List<UserAuthen> findByUsername(String username);
-	
-	UserAuthen findBy_id(ObjectId _id);  
+public interface AuthenRepository extends MongoRepository<UserAuthen, String> {
+    List<UserAuthen> findByUsername(String username);
+
+    UserAuthen findBy_id(ObjectId _id);
 }

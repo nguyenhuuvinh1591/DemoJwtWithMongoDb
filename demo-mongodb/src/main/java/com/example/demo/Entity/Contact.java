@@ -16,12 +16,12 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Contact{
-	@Id
-	private ObjectId _id;
+public class Contact {
+    @Id
+    private ObjectId _id;
 
-	private String name;
-	private Integer age;
-	private String email;
-	private String address;
+    private String name;
+    private Integer age;
+    private String email;
+    private String address;
 }

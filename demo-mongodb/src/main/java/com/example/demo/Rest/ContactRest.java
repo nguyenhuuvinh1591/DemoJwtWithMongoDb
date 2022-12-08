@@ -2,6 +2,7 @@ package com.example.demo.Rest;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,76 +33,76 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ContactRest extends AbstractRest {
 
-	@Autowired
-	private ContactService contactService;
-	
-	private AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
+    @Autowired
+    private ContactService contactService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public DtsApiResponse getAllContacts() {
-		long start = System.currentTimeMillis();
-		try {
-			List<Contact> list = contactService.getAllContacts();
-			return successHandler.handlerSuccess(list, start);
-		} catch (Exception e) {
-			return this.errorHandler.handlerException(e, start);
-		}
-	}
+    private AcceptHeaderLocaleResolver acceptHeaderLocaleResolver = new AcceptHeaderLocaleResolver();
 
-	@Cacheable("user")
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public DtsApiResponse getContactById(@PathVariable("id") ObjectId id) {
-		long start = System.currentTimeMillis();
-		try {
-			Contact contact = contactService.getContactById(id);
-			return successHandler.handlerSuccess(contact, start);
-		} catch (Exception e) {
-			return this.errorHandler.handlerException(e, start);
-		}
-	}
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public DtsApiResponse getAllContacts() {
+        long start = System.currentTimeMillis();
+        try {
+            List<Contact> list = contactService.getAllContacts();
+            return successHandler.handlerSuccess(list, start);
+        } catch (Exception e) {
+            return this.errorHandler.handlerException(e, start);
+        }
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public DtsApiResponse modifyContactById(@PathVariable("id") ObjectId id, @Valid @RequestBody Contact contact) {
-		long start = System.currentTimeMillis();
-		try {
-			Contact result = contactService.modifyContactById(id, contact);
-			return successHandler.handlerSuccess(result, start);
-		} catch (Exception e) {
-			return this.errorHandler.handlerException(e, start);
-		}
-	}
+    @Cacheable("user")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public DtsApiResponse getContactById(@PathVariable("id") ObjectId id) {
+        long start = System.currentTimeMillis();
+        try {
+            Contact contact = contactService.getContactById(id);
+            Optional<Contact> optionalContact = Optional.ofNullable(contact);
+            return successHandler.handlerSuccess(optionalContact, start);
+        } catch (Exception e) {
+            return this.errorHandler.handlerException(e, start);
+        }
+    }
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public DtsApiResponse createContact(@Valid @RequestBody Contact contact) {
-		long start = System.currentTimeMillis();
-		try {
-			Contact result = contactService.createContact(contact);
-			return successHandler.handlerSuccess(result, start);
-		} catch (Exception e) {
-			return this.errorHandler.handlerException(e, start);
-		}
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public DtsApiResponse modifyContactById(@PathVariable("id") ObjectId id, @Valid @RequestBody Contact contact) {
+        long start = System.currentTimeMillis();
+        try {
+            Contact result = contactService.modifyContactById(id, contact);
+            return successHandler.handlerSuccess(result, start);
+        } catch (Exception e) {
+            return this.errorHandler.handlerException(e, start);
+        }
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public DtsApiResponse deleteContact(@PathVariable ObjectId id) {
-		long start = System.currentTimeMillis();
-		try {
-			contactService.deleteContact(id);
-			return successHandler.handlerSuccess(id, start);
-		} catch (Exception e) {
-			return this.errorHandler.handlerException(e, start);
-		}
-	}
-	
-	@GetMapping("/export-excel")
-	public void getExportExcel(HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse) {
-		Long start = System.currentTimeMillis();
-		try {
-			Locale locale = acceptHeaderLocaleResolver.resolveLocale(httpServletRequest);
-			contactService.exportFileExcel(httpServletResponse, locale);
-		} catch (Exception ex) {
-			this.errorHandler.handlerException(ex, start);
-		}
-	}
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public DtsApiResponse createContact(@Valid @RequestBody Contact contact) {
+        long start = System.currentTimeMillis();
+        try {
+            Contact result = contactService.createContact(contact);
+            return successHandler.handlerSuccess(result, start);
+        } catch (Exception e) {
+            return this.errorHandler.handlerException(e, start);
+        }
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public DtsApiResponse deleteContact(@PathVariable ObjectId id) {
+        long start = System.currentTimeMillis();
+        try {
+            contactService.deleteContact(id);
+            return successHandler.handlerSuccess(id, start);
+        } catch (Exception e) {
+            return this.errorHandler.handlerException(e, start);
+        }
+    }
+
+    @GetMapping("/export-excel")
+    public void getExportExcel(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        Long start = System.currentTimeMillis();
+        try {
+            Locale locale = acceptHeaderLocaleResolver.resolveLocale(httpServletRequest);
+            contactService.exportFileExcel(httpServletResponse, locale);
+        } catch (Exception ex) {
+            this.errorHandler.handlerException(ex, start);
+        }
+    }
 }

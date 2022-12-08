@@ -13,6 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserTrackerCommon {
 
-	public String delete_by;
-	public Date delete_date;
+    public String delete_by;
+    public Date delete_date;
 }

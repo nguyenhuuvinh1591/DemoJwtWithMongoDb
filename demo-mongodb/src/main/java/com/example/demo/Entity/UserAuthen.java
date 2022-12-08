@@ -14,11 +14,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor	
+@AllArgsConstructor
 @Document(collection = "account")
-public class UserAuthen extends UserTrackerCommon{
-	@Id
-	private ObjectId _id;
+public class UserAuthen extends UserTrackerCommon {
+    @Id
+    private ObjectId _id;
     private String username;
     private String password;
     private String token;

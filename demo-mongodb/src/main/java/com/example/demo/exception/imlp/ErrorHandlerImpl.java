@@ -19,14 +19,14 @@ import com.example.demo.exception.GlobalException;
 import com.example.demo.utils.DtsCollectionUtil;
 import com.example.demo.utils.DtsStringUtil;
 
-public class ErrorHandlerImpl implements ErrorHandler{
+public class ErrorHandlerImpl implements ErrorHandler {
 
-	public static final String E500_ERROR_INTERNAL = "500_ERROR_INTERNAL";
-	public static final String ACCEPT_LANGUAGE = "Accept-Language";
-	public static final int ERROR_CODE = -1;
-	public static final String ERROR = "error";
-	
-	@Autowired
+    public static final String E500_ERROR_INTERNAL = "500_ERROR_INTERNAL";
+    public static final String ACCEPT_LANGUAGE = "Accept-Language";
+    public static final int ERROR_CODE = -1;
+    public static final String ERROR = "error";
+
+    @Autowired
     private MessageSource messageSource;
 
     @Autowired

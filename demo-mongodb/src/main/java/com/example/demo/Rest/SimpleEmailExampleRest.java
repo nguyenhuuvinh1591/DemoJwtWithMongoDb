@@ -14,7 +14,7 @@ import com.example.demo.constant.CommonConstant;
 
 @RestController
 @RequestMapping("/send")
-public class SimpleEmailExampleRest extends AbstractRest{
+public class SimpleEmailExampleRest extends AbstractRest {
 
     @Autowired
     private SendEmailService sendEmailService;
@@ -22,23 +22,24 @@ public class SimpleEmailExampleRest extends AbstractRest{
     @RequestMapping(value = "/email", method = RequestMethod.POST)
     public DtsApiResponse sendSimpleEmail(@RequestBody SendEmail sendEmail) {
         long start = System.currentTimeMillis();
-		try {
-			sendEmailService.sendEmail(sendEmail.getReceiver(), sendEmail.getContent(), sendEmail.getSubject());
-			return successHandler.handlerSuccess("Send email success", start);
-		} catch (Exception e) {
-			return this.errorHandler.handlerException(e, start);
-		}
+        try {
+            sendEmailService.sendEmail(sendEmail.getReceiver(), sendEmail.getContent(), sendEmail.getSubject());
+            return successHandler.handlerSuccess("Send email success", start);
+        } catch (Exception e) {
+            return this.errorHandler.handlerException(e, start);
+        }
     }
-    
+
     @RequestMapping(value = "/emailAll", method = RequestMethod.POST)
     public DtsApiResponse sendSimpleEmailAll(@RequestBody SendEmail sendEmail) {
         long start = System.currentTimeMillis();
-		try {
-			sendEmailService.sendAllEmailInContact(Integer.valueOf(CommonConstant.SPAM), sendEmail.getContent(), sendEmail.getSubject());
-			return successHandler.handlerSuccess("Send email success", start);
-		} catch (Exception e) {
-			return this.errorHandler.handlerException(e, start);
-		}
+        try {
+            sendEmailService.sendAllEmailInContact(Integer.valueOf(CommonConstant.SPAM), sendEmail.getContent(),
+                    sendEmail.getSubject());
+            return successHandler.handlerSuccess("Send email success", start);
+        } catch (Exception e) {
+            return this.errorHandler.handlerException(e, start);
+        }
     }
 
 }

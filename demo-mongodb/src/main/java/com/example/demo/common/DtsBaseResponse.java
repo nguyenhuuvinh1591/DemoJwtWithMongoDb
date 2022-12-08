@@ -94,7 +94,8 @@ public class DtsBaseResponse<T> {
         if (code == 1) {
             statusCode = HttpStatus.OK.value();
         } else if (code == 0) {
-            statusCode = HttpStatus.OK.value();;
+            statusCode = HttpStatus.OK.value();
+            ;
         } else if (code == -1) {
             statusCode = HttpStatus.BAD_REQUEST.value();
         }

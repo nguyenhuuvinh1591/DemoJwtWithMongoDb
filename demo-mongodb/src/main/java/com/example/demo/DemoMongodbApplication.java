@@ -17,28 +17,27 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.example.demo.security.JWTAuthorizationFilter;
 
 @SpringBootApplication
-public class DemoMongodbApplication extends SpringBootServletInitializer{
+public class DemoMongodbApplication extends SpringBootServletInitializer {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoMongodbApplication.class, args);
-	}
-	
-	@Override
+    public static void main(String[] args) {
+        SpringApplication.run(DemoMongodbApplication.class, args);
+    }
+
+    @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(DemoMongodbApplication.class);
     }
-	
-	@EnableWebSecurity
-	@Configuration
-	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http.csrf().disable()
-					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-					.authorizeRequests()
-					.antMatchers(HttpMethod.POST, "/login").permitAll()
-					.anyRequest().authenticated();
-		}
-	}
+    @EnableWebSecurity
+    @Configuration
+    class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.csrf().disable()
+                    .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll().anyRequest()
+                    .authenticated();
+        }
+    }
 }

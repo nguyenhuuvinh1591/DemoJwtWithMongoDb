@@ -7,7 +7,7 @@ import com.example.demo.common.DtsApiResponse;
 public interface ErrorHandler {
 
     public DtsApiResponse handlerException(Exception ex, long start);
-    
+
     public DtsApiResponse handlerException(Object data, long start);
 
     public DtsApiResponse handlerBindingResult(BindingResult bindingResult, long start);

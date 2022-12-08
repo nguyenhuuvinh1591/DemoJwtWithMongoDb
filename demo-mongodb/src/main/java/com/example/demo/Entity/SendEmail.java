@@ -15,11 +15,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SendEmail {
-	@Id
-	private ObjectId _id;
+    @Id
+    private ObjectId _id;
 
-	private String receiver;
-	private String sender;
-	private String subject;
-	private String content;
+    private String receiver;
+    private String sender;
+    private String subject;
+    private String content;
 }
